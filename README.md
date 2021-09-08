@@ -42,3 +42,6 @@ arquivo bootstrap instalado anteriormente na pasta `node_modules`. Por fim, decl
     "./node_modules/bootstrap/dist/css/bootstrap.css"
   ],
 ```
+
+## Commit 3 - Criando o primeiro componente
+Primeiro componente criado está no diretório `src\app\photo`
