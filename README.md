@@ -67,3 +67,37 @@ declarados naquele mesmo módulo, terão acesso para utilizar o componente em se
 })
 export class AppModule { }
 ```
+
+<hr>
+
+## Inbound properties
+As inbounds properties são propriedades dos componentes que podem receber valores de outros componentes
+ou templates onde estejam inseridas, caso essas propriedades do componentes estejam decoradas com o decorator `Input()` Ex:
+
+```html
+<ap-photo url="https://picsum.photos/id/237/200/300" description="Cachorro"></ap-photo>
+<ap-photo url="https://picsum.photos/seed/picsum/200/300" description="Montanha de Gelo"></ap-photo>
+```
+
+arquivo .component do `ap-photo`
+
+```typescript
+import { Component, Input } from "@angular/core";
+
+@Component({
+    selector: 'ap-photo',
+    templateUrl: 'photo.component.html',
+})
+export class PhotoComponent {
+    
+    //Definindo propriedades como Inbound Properties: Poderão receber valores a partir de outros componentes
+    @Input() description = "";
+    @Input() url = "";
+}
+```
+
+<hr>
+
+
+
+

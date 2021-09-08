@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
     selector: 'ap-photo',
@@ -6,6 +6,7 @@ import { Component } from "@angular/core";
 })
 export class PhotoComponent {
     
-    description = "Cachorro";
-    url = "https://picsum.photos/id/237/200/300";
+    //Definindo propriedades como Inbound Properties: Poderão receber valores a partir de outros componentes
+    @Input() description = "";
+    @Input() url = "";
 }
