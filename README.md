@@ -45,3 +45,25 @@ arquivo bootstrap instalado anteriormente na pasta `node_modules`. Por fim, decl
 
 ## Commit 3 - Criando o primeiro componente
 Primeiro componente criado está no diretório `src\app\photo`
+
+<hr>
+
+## Declarando o componente no módulo
+Para que possamos utilizar um componente no template de um outro. Precisamos definir um módulo para este componente primeiramente
+Depois que encontramos um módulo para o componente, vamos declara-lo no módulo. Por fim, todos os componentes que também estão
+declarados naquele mesmo módulo, terão acesso para utilizar o componente em seu template
+
+```typescript
+@NgModule({
+  declarations: [
+    AppComponent,
+    PhotoComponent //Declarando componente em um módulo
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
