@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPhoto } from '../photo/photo';
-import { PhotoService } from '../photo/photo.service';
 
 @Component({
   selector: 'ap-photo-list',
@@ -14,17 +13,15 @@ export class PhotoListComponent implements OnInit {
   filter: string = '';
 
   //Utilizando o constructor do componente apenas para injeção de dependência
-  constructor(
-    private photoService: PhotoService,
-    private activatedRoute: ActivatedRoute
-  ) { }
+  constructor(private activatedRoute: ActivatedRoute) { }
   
   //Utilizando um dos ciclos de vida do Angular
   ngOnInit(): void {
-    const userName = this.activatedRoute.snapshot.params.userName;
-    //Se inscrevendo no método do serviço PhotoService que retorna um observable de IPhoto[]
-    this.photoService.listFromUser(userName)
-      .subscribe(photos => this.photos = photos);
+    //Aqui estamos atribuindo o valor do resolver para o atributo do componente
+    this.photos = this.activatedRoute.snapshot.data.photos; //this.activatedRoute.snapshot.data.nomeDaPropriedade
+
+    //É importante lembrar que quando o resolver retorna um observable não precisamos assinar o método. Pois o Angular
+    //automaticamente faz esse processo devolvendo de fato apenas o valor do observable.
   }
 
 }

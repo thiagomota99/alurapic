@@ -581,4 +581,91 @@ export class FilterByDescriptionPipe implements PipeTransform {
 
 <hr>
 
-## 
+## Resolvers
+Os Resolvers são utilizados para momentos em que quando um componente seja carregado, os dados já estejam em memória e os mesmos só precise manipular esses dados como bem entender. Pois quando trata-se de chamadas assíncronas a resposta do servidor pode demorar e não queremos renderizar o nosso template enquanto esses dados ainda não estão disponíveis para serem visualizados. Os **Resolvers** vem para solucionar esse cenário. Veja um exemplo abaixo de como criar e implementa-lo:
+
+**Resolver**
+```typescript
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { IPhoto } from '../photo/photo';
+
+import { PhotoService } from '../photo/photo.service';
+
+@Injectable({providedIn: 'root'})
+//Aqui estamos criando um resolver que retorna um Observable que é um array de IPhoto
+export class PhotoListResolver implements Resolve<Observable<IPhoto[]>>{
+
+    //Inejetamos o serviço para buscar as fotos
+    constructor(private service: PhotoService) { }
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IPhoto[]> | Observable<Observable<IPhoto[]>> | Promise<Observable<IPhoto[]>> {
+        const userName = route.params.userName; //Pegamos o parâmetro da rota.
+        return this.service.listFromUser(userName); //retornamos o Observable da lista de Photos
+    }
+
+
+}
+```
+**Arquivo de Rotas**
+```typescript
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+
+import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
+import { PhotoListComponent } from './photos/photo-list/photo-list.component';
+import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
+
+/*Variável com a definição das rotas */
+const routes: Routes = [
+    { 
+        path: 'user/:userName', 
+        component: PhotoListComponent, //Quando a url for http://localhost:4200/user/flavio será renderizado o template do component PhotoListComponent
+        //Adicionamos a propriedade resolver para definir um resolver para a rota em questão
+        resolve: { 
+            photos: PhotoListResolver //nomeQualquerParaAPropriedade: nomeDoResolver
+        }
+    },
+];
+
+@NgModule({
+    imports: [ RouterModule.forRoot(routes) ], //Import de módulo que configura as rotas
+    exports: [ RouterModule ] //Exportando o módulo que possui as diretivas de rotas Ex: <router-outlet></router-outlet>
+})
+export class AppRoutingModule { }
+```
+
+**Componente utilizando Resolver**
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IPhoto } from '../photo/photo';
+
+@Component({
+  selector: 'ap-photo-list',
+  templateUrl: './photo-list.component.html',
+  styleUrls: ['./photo-list.component.css']
+})
+export class PhotoListComponent implements OnInit {
+
+  photos: IPhoto[] = [];
+  filter: string = '';
+
+  //Utilizando o constructor do componente apenas para injeção de dependência
+  constructor(private activatedRoute: ActivatedRoute) { }
+  
+  //Utilizando um dos ciclos de vida do Angular
+  ngOnInit(): void {
+    //Aqui estamos atribuindo o valor do resolver para o atributo do componente
+    this.photos = this.activatedRoute.snapshot.data.photos; //this.activatedRoute.snapshot.data.nomeDaPropriedade
+
+    //É importante lembrar que quando o resolver retorna um observable não precisamos assinar o método. Pois o Angular
+    //automaticamente faz esse processo devolvendo de fato apenas o valor do observable.
+  }
+
+}
+```
+
+<hr>
