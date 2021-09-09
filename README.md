@@ -190,3 +190,55 @@ export class AppComponent {
 
 <hr>
 
+## HttpClient e Injeção de dependência
+Para realizar chamadas a nossa WEB API precisamos primeiramente injetar a dependência do HttpClient.
+O mesmo possui uma série de métodos que nos permite realizar chamadas ajax na nossa aplicação angular.
+Mas para injeta-lo precisamos importar o módulo do mesmo em nosso `AppModule` da seguinte forma
+
+```typescript
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppComponent } from './app.component';
+import { PhotosModule } from './photos/photos.module';
+
+@NgModule({
+  declarations: [
+    AppComponent,//Declarando componente em um módulo
+  ],
+  imports: [
+    BrowserModule,
+    PhotosModule,
+    HttpClientModule //Colocando o import do HttpClient, onde o mesmo fornece um provider configurado que sabe criar um objeto do tipo HttpClient
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+Classe do componente:
+
+```typescript
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+
+  //Injetando o HttpClient no componente através do construtor
+  constructor(private http: HttpClient) { 
+    console.log(http);
+  }
+
+  title = 'alurapic';
+  
+  photos: any[] = [];  
+
+} 
+```

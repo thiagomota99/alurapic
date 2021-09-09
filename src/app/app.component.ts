@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -6,17 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  //Injetando o HttpClient no componente através do construtor
+  constructor(private http: HttpClient) { 
+    console.log(http);
+  }
+
   title = 'alurapic';
   
-  photos: any[] = [
-    {
-      url: 'https://picsum.photos/id/237/200/300',
-      description: 'Cachorro'
-    },
-    {
-      url: 'https://picsum.photos/seed/picsum/200/300',
-      description: 'Montanha de Gelo'
-    },
-  ];
-  
+  photos: any[] = [];  
+
 } 
