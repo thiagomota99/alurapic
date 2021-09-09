@@ -98,6 +98,54 @@ export class PhotoComponent {
 
 <hr>
 
+## Organizando código em módulos
+É uma boa prática organizar a aplicação em módulos. Pois além de facilitar a leitura do código, também podemos detectar
+mais rápido um erro. Portanto crie módulos onde os mesmos tenha declarados componentes, diretivas, pipes afins. Ou seja,
+que fazem de um escopo Ex: PhotoComponent, PhotoListComponent, PhotoFormComponent, PhotoDetalhesCaracteristicasComponent, etc..
 
+Ex de Módulo de feature (funcionalidade): 
+
+```typescript
+import { NgModule } from "@angular/core";
+import { PhotoComponent } from "./photo/photo.component";
+
+@NgModule({
+    declarations: [ 
+        PhotoComponent //Declarando componente em um módulo
+    ],
+    exports: [ 
+        PhotoComponent //Exportando o componente para tornar acessível para quem importar PhotosModule
+    ]
+})
+export class PhotosModule {
+
+}
+```
+
+Módulo Raiz da Aplicação (o primeiro módulo a ser carregado). É partindo deste módulo que todos os outros (módulos de feature)
+serão carregados. Basta o mesmo estar na propriedade `import`
+
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppComponent } from './app.component';
+import { PhotosModule } from './photos/photos.module';
+
+@NgModule({
+  declarations: [
+    AppComponent,//Declarando componente em um módulo
+  ],
+  imports: [
+    BrowserModule,
+    PhotosModule, //Importando o módulo de funcionalidade
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+<hr>
 
 
