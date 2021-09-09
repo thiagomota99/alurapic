@@ -428,3 +428,5 @@ export class AppComponent implements OnInit {
 
 <hr>
 
+## CommomModule x BrowserModule
+O CommomModule possui as diretivas mais utilizadas do Angular, sendo elas o *ngFor, *ngSwitch, *ngIf entre outras. O que acaba o diferenciado do BrowserModule em que o mesmo não pode ser importado em módulos de funcionalidade, apenas no módulo principal da aplicação
