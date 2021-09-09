@@ -474,6 +474,7 @@ import { PhotosModule } from './photos/photos.module';
   imports: [
     BrowserModule,
     PhotosModule,
+    ErrorsModule,
     AppRoutingModule, //Importando o módulo de rotas raízes da aplicação 
   ],
   providers: [],
