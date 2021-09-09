@@ -280,3 +280,41 @@ export class AppComponent {
   }
 }
 ```
+
+<hr>
+
+## Isolando o acesso em serviços
+Para melhor organização e separação de responsabilidades no Angular temos classes que são próprias para
+realizar o consumo dos dados das API's. Essas classes são chamadas de **Services**. Essas classes esconde e elimina
+a complexidade das classes de componentes terem que implementar os métodos de consumo de dados da WEB API, a responsabilidade
+de implementar estes métodos ficam com as classes de serviço Ex:
+
+```typescript
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+
+const API = 'http://localhost:3000';
+
+/*
+Todas classes de serviços são decoradas com o decorator Injectable()
+onde esse decorator nos permite injetar este serviço no componente.
+Já a propriedade providedIn com o valor 'root' indica que qualquer componente
+que quiser utilizar esse serviço conseguirá apenas injentando-o em seu constructor
+e que SÓ SERA CRIADA APENAS UMA INSTÂNCIA da classe de serviço PhotoService PARA TODA APLICAÇÃO.
+OU SEJA, TODOS OS COMPONENTES COMPARTILHARÃO A MESMA INSTÂNCIA DO SERVIÇO
+*/
+@Injectable({providedIn: 'root'})
+export class PhotoService {
+
+    //Injetando o HttpClient na classe de serviço PhotoService
+    constructor(private httpClient: HttpClient) { }
+
+    //retornando um observable de object[]. Quem faz o subscriber é o componente que está injetando o serviço
+    listFromUser(userName: string) {
+        //Utilizando o método get do HttpClient para fazer a busca dos dados na API,
+        //Onde o primeiro parâmetro é a url da API
+        return this.httpClient.get<object[]>(API + '/flavio/photos');        
+    }
+}
+}
+```
