@@ -430,3 +430,63 @@ export class AppComponent implements OnInit {
 
 ## CommomModule x BrowserModule
 O CommomModule possui as diretivas mais utilizadas do Angular, sendo elas o *ngFor, *ngSwitch, *ngIf entre outras. O que acaba o diferenciado do BrowserModule em que o mesmo não pode ser importado em módulos de funcionalidade, apenas no módulo principal da aplicação
+
+<hr>
+
+## Rotas em Angular
+O conceito de rotas em Angular tem como objetivo permitir que o Angular renderize um componente em específico de acordo com a url acessada. Ex: `http://localhost:4200/user/flavio`. Desta forma podemos visualizar o template de um componente de acordo com a rota que foi especificada para ele. Para isso criamos um arquivo de rotas que irá definir e configurar as rotas raízes (rotas principais) da aplicação.
+
+**Arquivo de Rotas**
+```typescript
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
+import { PhotoListComponent } from './photos/photo-list/photo-list.component';
+
+/*Variável com a definição das rotas */
+const routes: Routes = [
+    { path: 'user/flavio', component: PhotoListComponent },
+    { path: 'p/add', component: PhotoFormComponent },
+];
+
+@NgModule({
+    imports: [ RouterModule.forRoot(routes) ], //Import de módulo que configura as rotas
+    exports: [ RouterModule ] //Exportando o módulo que possui as diretivas de rotas Ex: <router-outlet></router-outlet>
+})
+export class AppRoutingModule { }
+```
+
+**Importando Módulo de Rotas no módulo principal da Aplicação**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing.module';
+import { PhotosModule } from './photos/photos.module';
+
+@NgModule({
+  declarations: [
+    AppComponent,//Declarando componente em um módulo
+  ],
+  imports: [
+    BrowserModule,
+    PhotosModule,
+    AppRoutingModule, //Importando o módulo de rotas raízes da aplicação 
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+**Adicionando diretiva ao template do AppComponent**
+```html
+<!--Diretiva que tem como objetivo renderizar o componente da rota dentro do template -->
+<router-outlet></router-outlet>
+```
+
+<hr>
+
