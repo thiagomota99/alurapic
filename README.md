@@ -529,7 +529,7 @@ export class PhotosComponent implements OnChanges {
   }
 }
 ```
-
+<hr>
 
 ## Event Binding
 O Event Binding é a abordagem que o Angular utiliza para realizar eventos. Onde todos o objeto `$event` é retornado por todos os eventos onde podemos usar suas propriedades para realizar alguma lógica sob o componente ou elemento HMTL. Segue o exemplo abaixo:
@@ -548,3 +548,37 @@ O Event Binding é a abordagem que o Angular utiliza para realizar eventos. Onde
 </div>
 ```
 
+<hr>
+
+## Introdução a Pipes
+Criando nosso próprio Pipe para filtrar um array de acordo com uma descrição
+
+```typescript
+import { Pipe, PipeTransform } from '@angular/core';
+import { IPhoto } from '../photo/photo';
+
+@Pipe({
+    name: 'filterByDescription' //Nome do pipe que será utilizado no template
+})
+export class FilterByDescriptionPipe implements PipeTransform {
+    //Primeiro parâmetro é o valor é a propriedade que queremos aplicar o pipe, o segundo são os critérios para transformação
+    transform(photos: IPhoto[], description: string) {
+        description = description.trim().toLowerCase();
+
+        if(description) {
+            return photos.filter(photo => 
+                photo.description.toLowerCase().includes(description)
+            );
+        } else {
+            return photos;
+        }
+        
+    }
+}
+```
+**Utilizando o Pipe no template**
+`<ap-photos [photos]="photos | filterByDescription: filter"></ap-photos>`
+
+<hr>
+
+## 
