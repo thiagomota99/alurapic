@@ -1,0 +1,6 @@
+<!-- Utilizando a diretiva *ngFor. A mesma pode mudar a estrutura do componente. No caso, criará o componente ap-photo várias vezes de acordo com o tamanho do array -->
+<ap-photo 
+    [url]="photo.url" 
+    [description]="photo.description" 
+    *ngFor="let photo of photos">
+</ap-photo>
