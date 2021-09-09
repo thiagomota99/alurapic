@@ -6,5 +6,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'alurapic';  
+  title = 'alurapic';
+  
+  photos: any[] = [
+    {
+      url: 'https://picsum.photos/id/237/200/300',
+      description: 'Cachorro'
+    },
+    {
+      url: 'https://picsum.photos/seed/picsum/200/300',
+      description: 'Montanha de Gelo'
+    },
+  ];
+  
 } 

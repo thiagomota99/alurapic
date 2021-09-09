@@ -148,4 +148,45 @@ export class AppModule { }
 
 <hr>
 
+## Utilizando a primeira diretiva
+
+```html
+<!-- 
+  Utilizando a diretiva *ngFor. 
+  A mesma pode mudar a estrutura do componente. 
+  No caso, criará o componente ap-photo várias vezes de acordo com o tamanho do array 
+-->
+<ap-photo 
+    [url]="photo.url" 
+    [description]="photo.description" 
+    *ngFor="let photo of photos">
+</ap-photo>
+```
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'alurapic';
+  
+  photos: any[] = [
+    {
+      url: 'https://picsum.photos/id/237/200/300',
+      description: 'Cachorro'
+    },
+    {
+      url: 'https://picsum.photos/seed/picsum/200/300',
+      description: 'Montanha de Gelo'
+    },
+  ];
+  
+} 
+```
+
+<hr>
 
