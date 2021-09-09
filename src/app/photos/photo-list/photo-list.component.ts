@@ -10,7 +10,8 @@ import { PhotoService } from '../photo/photo.service';
 })
 export class PhotoListComponent implements OnInit {
 
-  photos: IPhoto[] = []; 
+  photos: IPhoto[] = [];
+  filter: string = '';
 
   //Utilizando o constructor do componente apenas para injeção de dependência
   constructor(

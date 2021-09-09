@@ -530,3 +530,21 @@ export class PhotosComponent implements OnChanges {
 }
 ```
 
+
+## Event Binding
+O Event Binding é a abordagem que o Angular utiliza para realizar eventos. Onde todos o objeto `$event` é retornado por todos os eventos onde podemos usar suas propriedades para realizar alguma lógica sob o componente ou elemento HMTL. Segue o exemplo abaixo:
+```html
+<!-- Estamos realizando o binding de eventos onde o evento utilizado é o keyup e o mesmo está atribuindo ao atributo filter do componente o valor do campo input -->
+<div class="text-center mt-3 mb-3">
+    <form>
+        <input 
+            class="rounded"
+            type="search"
+            placeholder="search..."
+            autofocus
+            (keyup)="filter = $event.target.value"
+            >
+    </form>
+</div>
+```
+
