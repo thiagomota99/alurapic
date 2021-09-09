@@ -7,7 +7,7 @@ import { PhotoListComponent } from './photos/photo-list/photo-list.component';
 
 /*Variável com a definição das rotas */
 const routes: Routes = [
-    { path: 'user/flavio', component: PhotoListComponent }, //Quando a url for http://localhost:4200/user/flavio será renderizado o template do component PhotoListComponent
+    { path: 'user/:userName', component: PhotoListComponent }, //Quando a url for http://localhost:4200/user/flavio será renderizado o template do component PhotoListComponent
     { path: 'p/add', component: PhotoFormComponent }, //Quando a url for http://localhost:4200/p/add será renderizado o template do component PhotoFormComponent
     { path: '**', component: NotFoundComponent } //Quando for uma url que não existe será renderizado o template do componente NotFoundComponent
 ];

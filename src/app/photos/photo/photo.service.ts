@@ -24,6 +24,6 @@ export class PhotoService {
     listFromUser(userName: string) {
         //Utilizando o método get do HttpClient para fazer a busca dos dados na API,
         //Onde o primeiro parâmetro é a url da API
-        return this.httpClient.get<IPhoto[]>(API + '/flavio/photos');        
+        return this.httpClient.get<IPhoto[]>(`${API}/${userName}/photos`);        
     }
 }

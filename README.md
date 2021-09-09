@@ -491,3 +491,42 @@ export class AppModule { }
 
 <hr>
 
+## Change Detection
+O Angular utiliza essa abordagem para verificar mudanças em propriedades do componente que estão decoradas com o decorator `Input()`. Desta forma o Angular consegue identificar se houver alguma modificação nesta propriedade. Caso isso aconteça, podemos acionar alguma ação se for de nosso desejo.
+
+Ex:
+```typescript
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { IPhoto } from '../../photo/photo';
+
+@Component({
+  selector: 'ap-photos',
+  templateUrl: './photos.component.html',
+  styleUrls: ['./photos.component.css']
+})
+export class PhotosComponent implements OnChanges {
+
+  @Input() photos: IPhoto[] = [];
+  rows: any[] = [];
+
+  constructor() { }
+
+  //Verifica se alguma Inbound Property (propriedades decoradas com decorator Input()) sofreu alguma mudança
+  //Caso tenha sofrido o parâmetro changes terá uma propriedade com o mesmo nome 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.photos)
+      this.rows = this.groupColumns(this.photos);
+  }
+
+  groupColumns(photos: IPhoto[]) {
+    const newRows = [];
+
+    for(let index = 0; index < photos.length; index+=3) {
+      newRows.push(photos.slice(index, index + 3));
+    }
+
+    return newRows;
+  }
+}
+```
+
