@@ -7,6 +7,7 @@ import { PhotoComponent } from './photo/photo.component';
 import { PhotoFormComponent } from './photo-form/photo-form.component';
 import { PhotosComponent } from './photo-list/photos/photos.component';
 import { FilterByDescriptionPipe } from './photo-list/filter-by-description.pipe';
+import { LoadButtonComponent } from './photo-list/load-button/load-button.component';
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import { FilterByDescriptionPipe } from './photo-list/filter-by-description.pipe
         PhotoListComponent, //Declarando componente em um módulo
         PhotoFormComponent, //Declarando componente em um módulo
         PhotosComponent, //Declarando componente em um módulo
-        FilterByDescriptionPipe //Declarando filter em um módulo
+        FilterByDescriptionPipe, LoadButtonComponent //Declarando filter em um módulo
     ],
     imports: [
         HttpClientModule, //Colocando o import do HttpClient, onde o mesmo fornece um provider configurado que sabe criar um objeto do tipo HttpClient
