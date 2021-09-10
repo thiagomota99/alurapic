@@ -2,7 +2,7 @@
 
 <hr>
 
-## Commit 1 - Fazendo o primeiro data-binding
+## Fazendo o primeiro data-binding
 
 ```typescript
 import { Component } from '@angular/core';
@@ -27,7 +27,7 @@ export class AppComponent {
 
 <hr>
 
-## Commit 2 - Adicionando o Bootstrap Ao Projeto
+## Adicionando o Bootstrap Ao Projeto
 
 Para garantir que o Angular irá gerenciar todas nossas dependências de desenvolvimento
 instale o bootstrap 4 via npm. Na pasta raíz do projeto execute o comando: `npm install bootstrap@4.1.1`
@@ -43,7 +43,7 @@ arquivo bootstrap instalado anteriormente na pasta `node_modules`. Por fim, decl
   ],
 ```
 
-## Commit 3 - Criando o primeiro componente
+## Criando o primeiro componente
 Primeiro componente criado está no diretório `src\app\photo`
 
 <hr>
