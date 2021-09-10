@@ -5,7 +5,7 @@
 
 <!-- Utilizando a diretiva *ngFor. A mesma pode mudar a estrutura do componente. No caso, criará o componente ap-photo várias vezes de acordo com o tamanho do array -->
 <ol class="list-unstyled ">
-    <li *ngFor="let cols of rows" class="row">
+    <li *ngFor="let cols of rows" class="row no-gutters">
         <div *ngFor="let photo of cols" class="col-4" >
             <ap-photo 
                 [url]="photo.url" 
