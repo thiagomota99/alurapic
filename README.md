@@ -802,3 +802,59 @@ Componentes compartilhados são aqueles componentes que é genérico e pode ser 
     </li>
 </ol>
 ```
+
+## Eventos Customizados
+Para criarmos eventos customizados, precisamos utilizar anotar nossos atributos das classes de componente com o decorator `@Output()` e definirmos seu tipo para `EventEmitter` que é uma classe espcial do Angular que nos permite criar eventos personalizados para nossos componentes. Veja um exemplo abaixo:
+
+**Componente com evento customizado onTyping**
+```typescript
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
+@Component({
+    selector: 'ap-search',
+    templateUrl: './search.component.html'
+})
+export class SearchComponent {
+
+    //Criando uma output property que irá representar um evento customizado do componente search-component
+    //o retorno deste evento continuará sendo um $event. Entretanto $event terá o valor que definirmos aqui para ele
+    @Output() onTyping: EventEmitter<string> = new EventEmitter<string>();
+    @Input() value: string = '';
+    
+    debounce: Subject<string> = new Subject<string>(); //Criando um subject
+    
+    constructor() { }
+
+    //Utilizando um dos ciclos de vida do Angular
+    ngOnInit(): void {
+        this.debounce.pipe(debounceTime(300))
+        .subscribe(filter => this.onTyping.emit(filter)); //o objeto EventEmiiter possui o método emit que é responsável por emitir um valor, este valor será $event do evento.
+    }
+    
+    //Método que será executando quando o componente for destruído
+    ngOnDestroy(): void {
+        this.debounce.unsubscribe();
+    }
+}
+```
+
+**Template do PhotoListComponent**
+```html
+<!-- Componente responsável por filtrar as fotos da grid de fotos -->
+<ap-search (onTyping)="filter = $event" [value]="filter"></ap-search>
+
+<!-- Componente responsável por renderizar a grid de fotos -->
+<ap-photos [photos]="photos | filterByDescription: filter"></ap-photos>
+
+<!-- Componente que representa o botão load more -->
+<ap-load-button 
+    [hasMore]="hasMore"
+    (click)="loadMore()">
+</ap-load-button>
+```
+
+<hr>
+
+## Diretivas Customizadas

@@ -1,17 +1,7 @@
-<!-- Estamos realizando o binding de eventos onde o evento utilizado é o keyup e o mesmo está atribuindo ao atributo filter do componente o valor do campo input -->
-<div class="text-center mt-3 mb-3">
-    <form>
-        <i aria-hidden="true" class="fa fa-search m-1"></i>
-        <input 
-            class="rounded"
-            type="search"
-            placeholder="search..."
-            autofocus
-            (keyup)="debounce.next($event.target.value)" 
-            ><!-- utilizando o método next do subject para emitir um valor a cada tecla digitada no input -->
-    </form>
-</div>
+<!-- Componente responsável por filtrar as fotos da grid de fotos -->
+<ap-search (onTyping)="filter = $event" [value]="filter"></ap-search>
 
+<!-- Componente responsável por renderizar a grid de fotos -->
 <ap-photos [photos]="photos | filterByDescription: filter"></ap-photos>
 
 <!-- Componente que representa o botão load more -->
