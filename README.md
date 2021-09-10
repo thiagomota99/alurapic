@@ -760,3 +760,45 @@ Conseguimos aplicar uma espécie de if else com a diretiva *ngIf. Siga o exemplo
     <p class="text-center text-muted">No more data to load</p>
 </ng-template>
 ```
+
+<hr>
+
+## Componente Compartilhado e diretiva ng-content
+Componentes compartilhados são aqueles componentes que é genérico e pode ser utilizado o usuário quiser. Componentes assim ficam dentro do diretório `shared\components` da aplicação. São componentes assim como qualquer outro. Entretanto declaramos um módulo para o mesmo e exportamos o componente através deste módulo para quem quiser utiliza-lo. Ja a diretiva **ng-content** tem como objetivo permitir que possamos passar dentro do componente o que quisermos, seja outro componente ou qualquer outra coisa. Veja o exemplo
+
+**Template do componente CardComponent**
+```html
+<div class="card border-light text-center">
+    <h4 class="card-header">{{ title }}</h4>
+    <div class="card-block text-justify">
+        <ng-content></ng-content> <!-- Tudo que estiver dentro de ap-card será renderizado aqui dentro -->       
+    </div>
+</div>
+```
+
+**Template do componente que utiliza o CardComponent**
+```html
+<!-- Verifica se o array de photos existe alguma posição -->
+<p class="text-center text-muted" *ngIf="!photos.length">
+    Sorry, no photos
+</p>
+
+<!-- Utilizando a diretiva *ngFor. A mesma pode mudar a estrutura do componente. No caso, criará o componente ap-photo várias vezes de acordo com o tamanho do array -->
+<ol class="list-unstyled ">
+    <li *ngFor="let cols of rows" class="row no-gutters">
+        <div *ngFor="let photo of cols" class="col-4" >
+            <!-- o contéudo passado dentro do ap-card será renderizado dentro da diretiva ng-content do template do CardComponent-->
+            <ap-card [title]="photo.description">
+                <ap-photo 
+                    [url]="photo.url" 
+                    [description]="photo.description">
+                </ap-photo>
+                <div class="text-center p-1">
+                    <i aria-hidden="true" class="fa fa-heart-o fa-1x mr-2">{{ photo.likes }}</i>
+                    <i aria-hidden="true" class="fa fa-comment-o fa-1x mr-2 ml-2">{{ photo.comments }}</i>
+                </div>
+            </ap-card>
+        </div>
+    </li>
+</ol>
+```
