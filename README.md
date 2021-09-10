@@ -737,3 +737,26 @@ export class PhotoListComponent implements OnInit, OnDestroy {
 
 <hr>
 
+## Aplicando else com a diretiva *ngIf
+Conseguimos aplicar uma espécie de if else com a diretiva *ngIf. Siga o exemplo abaixo:
+```html
+<!-- 
+     Para realizar o if else com o *ngIf, após criarmos o ng-template apenas referênciamos sua varável de
+     template no else.
+-->
+<div class="text-center" *ngIf="hasMore; else messageTemplate">
+    <button class="btn btn-primary">Load more</button>
+</div>
+
+<!-- 
+    Para que possamos utilizar uma espécie if e else em nosso template 
+    utilizamos a diretiva <ng-template></ng-template> que terá como objetivo
+    envelopar o contéudo que queremos que seja exibido no else do da diretiva *ngIf
+
+    Definimos também a variável de template messaTemplate que representará essa parte
+    do template.
+-->
+<ng-template #messageTemplate>
+    <p class="text-center text-muted">No more data to load</p>
+</ng-template>
+```

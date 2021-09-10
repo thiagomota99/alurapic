@@ -29,8 +29,8 @@ export class PhotoService {
 
     //Retornando uma lista de fotos paginada. Onde cada página me retorna até 12 fotos
     listFromUserPaginated(userName: string, page: number) {
-        const params = new HttpParams(); //Criando um objeto do tipo HttpParams que nos permite passar QueryParams na url
-        params.append('page',page.toString()) //Método append espera no primeiro parâmetro o nome do parâmetro e o segundo o valor do mesmo.
+        const params = new HttpParams().append('page',page.toString()); //Criando um objeto do tipo HttpParams que nos permite passar QueryParams na url
+        //Método append espera no primeiro parâmetro o nome do parâmetro e o segundo o valor do mesmo.
 
         return this.httpClient.get<IPhoto[]>(`${API}/${userName}/photos`,{ params }); //O método get do HttpClient espera um objeto com a propriedade params do tipo HttpParams
     }

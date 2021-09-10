@@ -16,7 +16,8 @@ import { LoadButtonComponent } from './photo-list/load-button/load-button.compon
         PhotoListComponent, //Declarando componente em um módulo
         PhotoFormComponent, //Declarando componente em um módulo
         PhotosComponent, //Declarando componente em um módulo
-        FilterByDescriptionPipe, LoadButtonComponent //Declarando filter em um módulo
+        LoadButtonComponent, //Declarando componente em um módulo
+        FilterByDescriptionPipe,  //Declarando filter em um módulo
     ],
     imports: [
         HttpClientModule, //Colocando o import do HttpClient, onde o mesmo fornece um provider configurado que sabe criar um objeto do tipo HttpClient

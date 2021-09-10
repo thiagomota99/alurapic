@@ -12,3 +12,9 @@
 </div>
 
 <ap-photos [photos]="photos | filterByDescription: filter"></ap-photos>
+
+<!-- Componente que representa o botão load more -->
+<ap-load-button 
+    [hasMore]="hasMore"
+    (click)="loadMore()">
+</ap-load-button>
