@@ -6,7 +6,11 @@
 <!-- Utilizando a diretiva *ngFor. A mesma pode mudar a estrutura do componente. No caso, criará o componente ap-photo várias vezes de acordo com o tamanho do array -->
 <ol class="list-unstyled ">
     <li *ngFor="let cols of rows" class="row no-gutters">
-        <div *ngFor="let photo of cols" class="col-4" >
+        <!-- 
+            Adicionando a diretiva apDarkenOnHover customizada ao elemento. O Angular é inteligente o suficente para saber também
+            que a propriedade brightness é uma input-property da diretiva apDarkenOnHover 
+        -->
+        <div *ngFor="let photo of cols" class="col-4" apDarkenOnHover brightness="70%">
             <!-- o contéudo passado dentro do ap-card será renderizado dentro da diretiva ng-content do template do CardComponent-->
             <ap-card>
                 <ap-photo 

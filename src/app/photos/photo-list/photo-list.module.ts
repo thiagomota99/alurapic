@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CardModule } from 'src/app/shared/components/card/card.module';
+import { DarkenOnHoverModule } from 'src/app/shared/directive/darken-on-hover/darken-on-hover.module';
 
 import { PhotoModule } from '../photo/photo.module';
 import { FilterByDescriptionPipe } from './filter-by-description.pipe';
@@ -22,6 +23,7 @@ import { SearchComponent } from './search/search.component';
         CommonModule, //CommomModule possui as diretivas do Angular para que possamos utiliza-las em nossos módulos de feature
         PhotoModule,
         CardModule,
+        DarkenOnHoverModule,
         HttpClientModule, //Colocando o import do HttpClient, onde o mesmo fornece um provider configurado que sabe criar um objeto do tipo HttpClient
     ] 
 })

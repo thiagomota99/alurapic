@@ -858,3 +858,79 @@ export class SearchComponent {
 <hr>
 
 ## Diretivas Customizadas
+Diretivas são basicamente componentes que não possuem template. As mesmas tem como objetivo alterar a estrutura do DOM (**Diretivas Estruturais**) ou interagir com os elementos/componentes dispostos no template (**Diretivas de Atributos**). Para mais detalhes de como implementar o conceito de Diretivas, veja o exemplo abaixo:
+
+**Criando uma Diretiva chamada `apDarkenOnHover`**
+```typescript
+import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
+
+/*
+    Toda diretiva é anotada com o decorator Directive e o selector da mesma é definido entre parênteses
+*/
+@Directive({
+    selector: '[apDarkenOnHover]'
+})
+export class DarkenOnHoverDirective {
+
+    @Input() brightness: string = '70%'; 
+
+    /*
+        Injetando o elementRef que é a referência do componente onde a diretiva está sendo utilizada.
+        Ou seja se a a diretiva estiver sendo utilizada em uma <div></div>
+        o objeto ElementRef irá trazer todos as propriedades e eventos deste elemento
+    */
+    constructor(
+        private elementRef: ElementRef,
+        private renderer: Renderer2
+    ) { }
+    
+    /*
+        Este decorator tem como objetivo interceptar qualquer evento do elemento que está utilizando a diretiva
+        no nosso caso decidimos por interceptar o evento mouseover e mouseleave
+    */
+    @HostListener('mouseover') 
+    darkenOn() {
+        /*
+            Aqui estamos utilizando o método setStyle() do objeto renderer 
+            para atribuir um estilo ao elemento que está utilizando a diretiva
+            o mesmo espera três parâmetros:
+            1 - Referência do elemento que está utilizando a diretiva
+            2 - Nome da propriedade CSS que queremos aplicar
+            3 - Valor desta propriedade
+        */
+        this.renderer.setStyle(this.elementRef.nativeElement,'filter',`brightness(${this.brightness})`);            
+    }
+
+    @HostListener('mouseleave')
+    darkenOff() {        
+        this.renderer.setStyle(this.elementRef.nativeElement,'filter','brightness(100%)');        
+    }
+ }
+```
+
+**Utilizando a diretiva `apDarkenOnHover`**
+
+```html
+<ol class="list-unstyled ">
+    <li *ngFor="let cols of rows" class="row no-gutters">
+        <!-- 
+            Adicionando a diretiva apDarkenOnHover customizada ao elemento. O Angular é inteligente o suficente para saber também
+            que a propriedade brightness é uma input-property da diretiva apDarkenOnHover 
+        -->
+        <div *ngFor="let photo of cols" class="col-4" apDarkenOnHover brightness="70%">            
+            <ap-card>
+                <ap-photo 
+                    [url]="photo.url" 
+                    [description]="photo.description">
+                </ap-photo>
+                <div class="text-center p-1">
+                    <i aria-hidden="true" class="fa fa-heart-o fa-1x mr-2">{{ photo.likes }}</i>
+                    <i aria-hidden="true" class="fa fa-comment-o fa-1x mr-2 ml-2">{{ photo.comments }}</i>
+                </div>
+            </ap-card>
+        </div>
+    </li>
+</ol>
+```
+
+<hr>
