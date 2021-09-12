@@ -1023,3 +1023,42 @@ export class SignInComponent implements OnInit {
 > não esqueça já importar o módulo **ReactiveFormsModule**
 
 <hr>
+
+## Capturando o hearder da resposta
+Para proteger a aplicação de acessos a áreas restritas utilizaremos um token retornado no cabeçalho da resposta.
+Este cabeçalho tem o nome `x-access-token` que terá o token com algumas informações relacionadas ao usuário autenticado.
+Para capturar essas inforamações veja o exemplo abaixo:
+
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { tap } from 'rxjs/operators';
+
+const API_URL = 'http://localhost:3000';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+
+  constructor(private httpClient: HttpClient) { }
+
+  //Método responsável por realizar uma chamada AJAX do tipo POST para o servidor
+  authenticate(userName:string, password:string) {
+    //Passando como dados um objeto javascript com as propriedades userName e password
+    return this.httpClient
+      .post(
+        `${API_URL}/user/login`,
+        { userName, password },
+        { observe: 'response' } //Este objeto com a propriedade observe e valor response dará acesso a todos as propriedades da resposta
+      )
+      .pipe(
+        //Aplicando o operador tap para capturar o cabeçalho x-access-token da resposta
+        tap(response => {
+          const authToken = response.headers.get('x-access-token'); //Pegando o valor do cabeçalho x-access-token
+          console.log(`User ${userName} authenticate with token ${authToken}`);
+        })
+      ); 
+  }
+}
+```
