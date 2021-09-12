@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/core/auth.service';
+import { Router } from '@angular/router';
+
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { PlatformDetectorService } from 'src/app/core/platform-detector/platform-detector.service';
 
 @Component({
     templateUrl: './signin.component.html',
@@ -11,10 +14,15 @@ export class SignInComponent implements OnInit {
     //Criamos o atributo do tipo FormGroup que possui os métodos para manipular o formulário HTML
     public loginForm: FormGroup;
 
+    //Injentando um elemento do template com o decorator ViewChild
+    @ViewChild('userNameTemplate') userNameTemplate: ElementRef<HTMLInputElement>;
+
     //Injetando serviço do Angular que consegue construir um objeto do tipo FormGroup
     constructor(
         private formBuilder: FormBuilder,
         private authService: AuthService,
+        private router: Router,
+        private platformDetector: PlatformDetectorService,
     ) { } 
 
     ngOnInit(): void {
@@ -32,14 +40,18 @@ export class SignInComponent implements OnInit {
     }
 
     login(): void {
-        const userName = this.loginForm.get('userName').value;
-        const password = this.loginForm.get('password').value;
+        const userName = this.loginForm.get('userName').value; //Pegando o valor do campo userName
+        const password = this.loginForm.get('password').value; //Pegando o valor do campo password
 
         this.authService
             .authenticate(userName,password)
             .subscribe(
-                () => console.log('autentitcado'),
-                err => alert(`Erro: ${err.message}`)
-            );
+                () => this.router.navigate(['user',userName]), //Redirecionando usuário após autenticação
+                err => {
+                    this.loginForm.reset(); //Limpa os campos do formulário
+                    this.platformDetector.isPlatformBrowser() && //Verifica se o código está rodando no browser ou não
+                        this.userNameTemplate.nativeElement.focus(); //Aplicando foco ao compo de userName do formulário.                    
+                    alert(`Erro: ${err.message}`);
+            });
     }
 }
