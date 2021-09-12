@@ -4,7 +4,7 @@
     A diretiva formGroup do Angular espera como parâmetro um atributo do tipo FormGroup.
     Onde desta forma poderemos gerenciar agora o formulário através do componente.
 -->
-<form [formGroup]="loginForm" class="form mt-4">
+<form [formGroup]="loginForm" class="form mt-4" (submit)="login()">
     <div class="form-group">
         <!-- A diretiva formControlName espera uma string que é o nome do campo definido no método group do formBuilder -->
         <input

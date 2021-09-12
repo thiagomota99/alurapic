@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -11,6 +12,7 @@ import { SignInComponent } from './sigin/signin.component';
         CommonModule, 
         ReactiveFormsModule,
         VMessageModule,
+        HttpClientModule,
     ]
 })
 export class HomeModule { }

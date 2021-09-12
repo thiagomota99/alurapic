@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/core/auth.service';
 
 @Component({
     templateUrl: './signin.component.html',
@@ -11,7 +12,10 @@ export class SignInComponent implements OnInit {
     public loginForm: FormGroup;
 
     //Injetando serviço do Angular que consegue construir um objeto do tipo FormGroup
-    constructor(private formBuilder: FormBuilder) { } 
+    constructor(
+        private formBuilder: FormBuilder,
+        private authService: AuthService,
+    ) { } 
 
     ngOnInit(): void {
         //Atribuindo a referência do FormGroup criado pelo método group do formBuilder
@@ -25,5 +29,17 @@ export class SignInComponent implements OnInit {
             e estas propriedades esperam um array, a primeira posição do array é o valor do campo, a segunda são as validações
             que o campo terá
         */
+    }
+
+    login(): void {
+        const userName = this.loginForm.get('userName').value;
+        const password = this.loginForm.get('password').value;
+
+        this.authService
+            .authenticate(userName,password)
+            .subscribe(
+                () => console.log('autentitcado'),
+                err => alert(`Erro: ${err.message}`)
+            );
     }
 }
