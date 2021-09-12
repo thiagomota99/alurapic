@@ -5,9 +5,14 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
 import { PhotoListComponent } from './photos/photo-list/photo-list.component';
 import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
+import { SignInComponent } from './home/sigin/signin.component';
 
 /*Variável com a definição das rotas */
 const routes: Routes = [
+    {
+        path: '',
+        component: SignInComponent, //Quando a url for http://localhost:4200/ será renderizado o template do component SignInComponent
+    },
     { 
         path: 'user/:userName', 
         component: PhotoListComponent, //Quando a url for http://localhost:4200/user/flavio será renderizado o template do component PhotoListComponent

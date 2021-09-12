@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 import { ErrorsModule } from './errors/errors.module';
+import { HomeModule } from './home/home.module';
 import { PhotosModule } from './photos/photos.module';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { PhotosModule } from './photos/photos.module';
     BrowserModule,
     PhotosModule,
     ErrorsModule,
+    HomeModule,
     AppRoutingModule, //Importando o módulo de rotas raízes da aplicação 
   ],
   providers: [],
