@@ -13,12 +13,10 @@
             placeholder="user name"
             autofocus
         >
-        <!-- Aqui estamos validando se o array errors existe e se a propriedade required é verdadeiro-->
-        <small
-            class="text-danger d-block mt-2"
+        <ap-vmessage 
+            texto="O campo de user name é obrigatório!" 
             *ngIf="loginForm.get('userName').errors?.required">
-            O campo de user name é obrigatório!
-        </small>
+        </ap-vmessage>
     </div>
 
     <div class="form-group">
@@ -28,13 +26,11 @@
             type="password" 
             class="form-control"
             placeholder="password"            
-        >
-        <!-- Aqui estamos validando se o array errors existe e se a propriedade required é verdadeiro-->
-        <small 
-            class="text-danger d-block mt-2" 
-            *ngIf="loginForm.get('password').errors?.required">
-            O campo de password é obrigatório!
-        </small>        
+        >        
+        <ap-vmessage
+            *ngIf="loginForm.get('password').errors?.required" 
+            texto="O campo de password é obrigatório!">
+        </ap-vmessage>  
     </div>
 
     <!-- utilizando o atributo disabled para desabilitar o botão, caso a propriedade invalid do atributo loginForm for verdadeiro-->
