@@ -1062,3 +1062,39 @@ export class AuthService {
   }
 }
 ```
+
+## Criando serviço para gerenciar o TOKEN
+Para melhor manipulação do token, criamos um serviço onde o mesmo terá métodos para guardar, buscar, verificar e remover um token
+do localStorage do browser. Veja o exemplo abaixo:
+
+```typescript
+import { Injectable } from '@angular/core';
+
+const KEY = 'authToken';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class TokenService { 
+
+    //Verifica se existe um token
+    hasToken(): boolean { 
+        return !!this.getToken;
+    }
+
+    //Pega o valor do token
+    getToken(): string { 
+        return window.localStorage.getItem(KEY);
+    }
+
+    //setando um token
+    setToken(token:string): void { 
+        window.localStorage.setItem(KEY,token);
+    }
+
+    //remove o token
+    removeToken(): void { 
+        window.localStorage.removeItem(KEY);
+    }
+}
+```
