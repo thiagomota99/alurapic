@@ -1098,8 +1098,101 @@ export class TokenService {
     }
 }
 ```
+<hr>
 
 ## BehaviorSubject
 O BehaviorSubject é um subject "melhorado". Onde podemos utilizar o mesmo quando o valor emitido
 não seja consumido ou escutado, o BehaviorSubject o manterá armazenado. E se alguém faz o subscribe depois,
 terá acesso ao último valor emitido.
+
+```typescript
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+import { TokenService } from '../token/token.service';
+import * as jwt_decode from 'jwt-decode';
+import { IUser } from './user';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class UserService { 
+
+    //Criação de um BehaviorSubject para emitir valores. Onde o valor padrão a ser emitido é null
+    private userSubject: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
+
+    //Injetando o serviço de token
+    constructor(private tokenService: TokenService) { 
+        //Caso tenha algum token no browser execute o método decodeAndNotify
+        this.tokenService.hasToken() &&
+            this.decodeAndNotify();
+    }
+
+    //Setando o token no localStorage do navegador e notificando que usuário está logado
+    setToken(token:string): void {
+        this.tokenService.setToken(token);
+        this.decodeAndNotify();        
+    }
+
+    //Retornando um observable do subject userSubject
+    getUser(): Observable<IUser> { 
+        return this.userSubject.asObservable();
+    }
+
+    private decodeAndNotify(): void {
+        const token = this.tokenService.getToken(); //Pegando o token do localStorage        
+        const user = jwt_decode(token) as IUser; //Decodificando o token, pegando pay-load do token e transformando em um objeto de IUser
+        this.userSubject.next(user); //Emitindo o valor decodificado do pay-load do token
+    }
+```
+
+## Criando o próprio validator
+Podemos criar nosso próprio validator para coloca-lo como o validator de um formulário. Veja o exemplo abaixo:
+
+**Validator Customizado**
+```typescript
+import { FormControl } from '@angular/forms';
+
+//Validator Customizado
+export function lowerCaseValidator(control: FormControl) { //Recebe como parâmetro um control (input do formulário) do tipo FormControl
+    //Verifica se o campo se o valor do campo está vazio e se atende a expressão regular
+    if(control.value.trim() && !/^[a-z0-9_\-]+$/.test(control.value)) 
+        return { lowerCase: true }; //Retorna um objeto com a propriedade lowerCase: true caso campo esteja inválido
+    return null; //Caso o campo esteja válido retorna null
+}
+```
+
+**Utilizando Validator custmizado**
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { lowerCaseValidator } from 'src/app/shared/validators/lower-case.validators';
+
+@Component({
+    templateUrl: './signup.component.html'
+})
+export class SignUpComponent implements OnInit { 
+
+    signupForm: FormGroup;
+
+    constructor(private formBuilder: FormBuilder) { }
+
+    ngOnInit(): void {
+        this.signupForm = this.formBuilder.group({
+            email: ['', [Validators.required, Validators.email] ], //A segunda posição do array aceita um array de Validators
+            fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
+            userName: ['', [Validators.required, Validators.minLength(2), lowerCaseValidator ,Validators.maxLength(30)]],
+            password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(14)]],
+        });
+    }
+}
+```
+
+```html
+  <ap-vmessage
+    *ngIf="signupForm.get('userName').errors?.lowerCase"
+    texto="Must be lowercase">
+  </ap-vmessage>
+```
+
+<hr>

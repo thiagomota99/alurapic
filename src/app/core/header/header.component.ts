@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { UserService } from '../user/user.service';
     selector: 'ap-header',
     templateUrl: './header.component.html',
 })
-export class HeaderComponent { 
+export class HeaderComponent implements OnInit { 
     
     /*Criando um observable do tipo IUser*/
     user$: Observable<IUser>;
