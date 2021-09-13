@@ -13,7 +13,12 @@
 
         <ng-template #login>
             <span class="navbar-text">
-                Please, login!
+                <!-- 
+                    Diretiva routerLink para redirecionar o usuário para a rota desejaada
+                    NUNCA UTILIZA O ATRIBUTO HREF PARA FAZER A NAVEGAÇÃO EM SUA SPA (Single Page Application)
+                    pois quando utilizado o atributo href a aplicação toda será recarregada
+                -->
+               <a [routerLink]="['']">Please, login!</a>
             </span>
         </ng-template>
 
