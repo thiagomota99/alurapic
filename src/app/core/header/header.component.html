@@ -1,9 +1,21 @@
 <header class="fixed-top">
     <nav class="navbar navbar-light bg-white">
         <a class="navbar-brand">ALURAPIC</a>
-        <div>
-            <i class="fa fa-user-circle"></i>
-            <a class="ml-1">{{ user?.name }}</a>
+        <!-- 
+            O pipe async realiza o subscriber automático no observable
+            e pega o valor emitido por ele e exibe onde precisamos
+        -->
+        <div *ngIf="(user$ | async) as user; else login">
+            <i class="fa fa-user-circle mr-1"></i>
+            <a class="mr-1">{{user.name}}</a>
+            <a (click)="logout()" style="cursor: pointer;">(Logout)</a>
         </div>
+
+        <ng-template #login>
+            <span class="navbar-text">
+                Please, login!
+            </span>
+        </ng-template>
+
     </nav>
 </header>

@@ -12,6 +12,7 @@ export class UserService {
 
     //Criação de um BehaviorSubject para emitir valores. Onde o valor padrão a ser emitido é null
     private userSubject: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
+    private userName: string = '';
 
     //Injetando o serviço de token
     constructor(private tokenService: TokenService) { 
@@ -34,6 +35,23 @@ export class UserService {
     private decodeAndNotify(): void {
         const token = this.tokenService.getToken(); //Pegando o token do localStorage        
         const user = jwt_decode(token) as IUser; //Decodificando o token, pegando pay-load do token e transformando em um objeto do IUser
+        this.userName = user.name; //Atribui o nome do usuário logado ao atributo userName
         this.userSubject.next(user); //Emitindo o valor decodificado do token
+    }
+
+    //Quando o usuário clicar em logout
+    logout() {
+        this.tokenService.removeToken(); //remove o token do localStorage
+        this.userSubject.next(null); //Emite um valor null para limpar o nome do usuário logado no template do HeaderComponent
+    }
+
+    //Verifica se o usuário está logado
+    isLogged(): boolean {
+        return this.tokenService.hasToken(); //Se tem token, o usuári está logado
+    }
+
+    //Retorna o nome do usuário logado
+    getUserName(): string {
+        return this.userName;
     }
 }
