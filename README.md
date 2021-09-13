@@ -1098,3 +1098,8 @@ export class TokenService {
     }
 }
 ```
+
+## BehaviorSubject
+O BehaviorSubject é um subject "melhorado". Onde podemos utilizar o mesmo quando o valor emitido
+não seja consumido ou escutado, o BehaviorSubject o manterá armazenado. E se alguém faz o subscribe depois,
+terá acesso ao último valor emitido.

@@ -53,7 +53,8 @@ Seguiremos aprendendo sobre o token a seguir.
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { TokenService } from '../token/token.service';
+
+import { UserService } from '../user/user.service';
 
 const API_URL = 'http://localhost:3000';
 
@@ -64,7 +65,7 @@ export class AuthService {
 
   constructor(
     private httpClient: HttpClient,
-    private tokenService: TokenService
+    private userService: UserService
   ) { }
 
   //Método responsável por realizar uma chamada AJAX do tipo POST para o servidor
@@ -80,7 +81,7 @@ export class AuthService {
         //Aplicando o operador tap para capturar o cabeçalho x-access-token da resposta
         tap(response => {
           const token = response.headers.get('x-access-token'); //Pegando o valor do cabeçalho x-access-token
-          this.tokenService.setToken(token); //Setando o token.      
+          this.userService.setToken(token); //Setando o token.      
         })
       ); 
   }

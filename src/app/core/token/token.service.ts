@@ -9,7 +9,7 @@ export class TokenService {
 
     //Verifica se existe um token
     hasToken(): boolean { 
-        return !!this.getToken;
+        return !!this.getToken();
     }
 
     //Pega o valor do token
