@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { PlatformDetectorService } from 'src/app/core/platform-detector/platform
     templateUrl: './signin.component.html',
     styleUrls: ['./signin.component.css'],
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, AfterViewInit {
 
     //Criamos o atributo do tipo FormGroup que possui os métodos para manipular o formulário HTML
     public loginForm: FormGroup;
@@ -36,7 +36,13 @@ export class SignInComponent implements OnInit {
             O método group do formBuilder espera um objeto onde o nome das propriedades é nomes dos campos do formulário
             e estas propriedades esperam um array, a primeira posição do array é o valor do campo, a segunda são as validações
             que o campo terá
-        */
+        */          
+    }
+
+    //Este método do ciclo de vida será executado após o carregamento do template do componente
+    ngAfterViewInit(): void {
+        this.platformDetector.isPlatformBrowser() && //Verifica se o código está rodando no browser ou não
+            this.userNameTemplate.nativeElement.focus(); //Aplicando foco ao compo de userName do formulário.  
     }
 
     login(): void {

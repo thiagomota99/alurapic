@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { VMessageModule } from '../shared/components/vmessage/vmessage.module';
+import { HomeComponent } from './home.component';
 import { SignInComponent } from './sigin/signin.component';
 import { SignUpComponent } from './signup/signup.component';
 
@@ -12,6 +13,7 @@ import { SignUpComponent } from './signup/signup.component';
     declarations: [ 
         SignInComponent,
         SignUpComponent,
+        HomeComponent,
     ],
     imports: [
         CommonModule, 
