@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { VMessageModule } from '../shared/components/vmessage/vmessage.module';
@@ -16,7 +16,6 @@ import { SignUpComponent } from './signup/signup.component';
     imports: [
         CommonModule, 
         ReactiveFormsModule,
-        FormsModule,
         VMessageModule,
         HttpClientModule,
         RouterModule,

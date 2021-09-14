@@ -45,6 +45,11 @@
             *ngIf="signupForm.get('userName').errors?.lowerCase"
             texto="Must be lowercase">
         </ap-vmessage>
+        <ap-vmessage
+            texto="Username already taken"
+            *ngIf="signupForm.get('userName').errors?.userNameTaken">
+        </ap-vmessage>
+        <small *ngIf="signupForm.get('userName').valid" class="text-success">User available</small>        
     </div>
 
     <div class="form-group">
@@ -63,7 +68,11 @@
         </ap-vmessage>
     </div>
 
-    <button class="btn btn-primary btn-block">Register</button>
+    <!--
+        Desabilita o botão caso o formulário esteja inválido ou alguma
+        validação assíncrona ainda não terminou de ser realizada.
+    -->
+    <button [disabled]="signupForm.invalid || signupForm.pending"class="btn btn-primary btn-block">Register</button>
 
     <p>Already a user? <a [routerLink]="['']">Sign In!</a></p>
 </form>
