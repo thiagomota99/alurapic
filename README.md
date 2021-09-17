@@ -1244,3 +1244,130 @@ export class UserNotTakenValidatorService {
      }
 }
 ```
+
+<hr>
+
+## Utilizando useHash
+Quando vamos colocar o projeto feito em Angular em algum servidor. Seja ele, o TomCat, Apache, PhP **TODOS** precisarão realizar uma configuração, que ao acessar qualquer rota da aplicação, o mesmo sempre devolva `index.html`. Pois se isso não acontece, nossa SPA sera carregada novamente do zero. Entretanto, caso desconheça como realizar esta configuração no servidor pode-se utilizar a propriedade `useHash` no módulo de rotas do Angular. O mesmo prefixara nas rotas da aplicação o símbom **#** com isso, tudo que vier após este símbolo será ignorado pelo servidor e o Angular ficara encarregado de carregar a rota que queremos acessar: Veja o exemplo abaixo de como utilizar esta estratégia
+
+```typescript
+@NgModule({
+    imports: [ RouterModule.forRoot(routes, { useHash: true }) ], //o segundo parâmetro do forRoot espera um objeto com as configurações extra para a rota
+    exports: [ RouterModule ] //Exportando o módulo que possui as diretivas de rotas Ex: <router-outlet></router-outlet>
+})
+export class AppRoutingModule { }
+```
+
+<hr>
+
+## Lazy loading
+O Lazy loading é a estratégia que o Angular utiliza para o carregamento dos módulos da aplicação de forma preguiçosa. Ou seja, se a aplicação possui diversos módulos, a ideia é que seja carregado primeiramente os módulos com mais acessos no início.
+Conforme o usuário navegue na aplicação, o Angular é encarregado de realizar o download daquele pedaço (chunk) que usuário quer acessar
+Com isso, as vantagens que o lazy loading e code spliting nos proporciona são:
+1. Primeiro carregamento da SPA mais rápido, já que realizado o download somente dos módulos necessários. 
+2. Questões de organização. Onde somos obrigatoriamente definir para cada módulo que utiliza esta estratégia um módulo de rotas. 
+3. Segurança. Caso um usuário da aplicação não tenha permissão para acesso a um determinado módulo, o mesmo nem precisar ser baixado pelo Angular.
+
+Veja um exemplo de como aplicar o lazy loading
+
+1. Primeiro alteramos o módulo de rotas padrão da aplicação **AppRoutingModule**
+```typescript
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+
+import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
+import { PhotoListComponent } from './photos/photo-list/photo-list.component';
+import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
+
+/*Variável com a definição das rotas */
+const routes: Routes = [
+    {
+        path: '', //para o path vazio: localhost:3000/
+        pathMatch: 'full', //Considere todo o segmento da rota
+        redirectTo: 'home', //e redirecione para a rota home
+    },
+    {
+        path: 'home', //para o path home: localhost:3000/home
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule), //Carregue o módulo HomeModule e suas rotas de forma lazy loading
+    },
+];
+
+@NgModule({
+    imports: [ RouterModule.forRoot(routes, { useHash: true }) ], //Import de módulo que configura as rotas
+    exports: [ RouterModule ] //Exportando o módulo que possui as diretivas de rotas Ex: <router-outlet></router-outlet>
+})
+export class AppRoutingModule { }
+```
+2. Remova do **AppModule** o módulo que será carregado de forma lazy
+
+3. Crie o arquivo de rotas para o módulo que será carregado de forma lazy
+```typescript
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { AuthGuard } from '../core/auth/auth.guard';
+import { HomeComponent } from './home.component';
+import { SignInComponent } from './sigin/signin.component';
+import { SignUpComponent } from './signup/signup.component';
+
+const routes: Routes = [
+    {
+        path: '',
+        component: HomeComponent,
+        //Rota filhas de HomeComponent
+        canActivate: [AuthGuard], //Adicionando guarda de rota a tela de login da aplicação
+        children: [
+            {
+                path: '',
+                component: SignInComponent, //Quando a url for http://localhost:4200/ será renderizado o template do component SignInComponent                
+            },
+            {
+                path: 'signup',
+                component: SignUpComponent, //Quando a url for http://localhost:4200/signup será renderizado o template do component SignUpComponent
+            },
+        ]
+    },
+]
+
+@NgModule({
+    imports: [ 
+        CommonModule, 
+        RouterModule.forChild(routes),
+    ],
+    exports: [ RouterModule ]
+})
+export class HomeRoutingModule { }
+```
+
+4. Importe o módulo de rotas criado ao seu módulo
+
+```typescript
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { VMessageModule } from '../shared/components/vmessage/vmessage.module';
+import { HomeComponent } from './home.component';
+import { HomeRoutingModule } from './home.routing.module';
+import { SignInComponent } from './sigin/signin.component';
+import { SignUpComponent } from './signup/signup.component';
+
+@NgModule({
+    declarations: [ 
+        SignInComponent,
+        SignUpComponent,
+        HomeComponent,
+    ],
+    imports: [
+        CommonModule, 
+        ReactiveFormsModule,
+        VMessageModule,
+        HttpClientModule,
+        HomeRoutingModule, //Módulo de rotas do HomeModule
+    ]
+})
+export class HomeModule { }
+```

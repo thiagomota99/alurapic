@@ -5,28 +5,17 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
 import { PhotoListComponent } from './photos/photo-list/photo-list.component';
 import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
-import { SignInComponent } from './home/sigin/signin.component';
-import { AuthGuard } from './core/auth/auth.guard';
-import { SignUpComponent } from './home/signup/signup.component';
-import { HomeComponent } from './home/home.component';
 
 /*Variável com a definição das rotas */
 const routes: Routes = [
     {
-        path: '',
-        component: HomeComponent,
-        //Rota filhas de HomeComponent
-        canActivate: [AuthGuard], //Adicionando guarda de rota a tela de login da aplicação
-        children: [
-            {
-                path: '',
-                component: SignInComponent, //Quando a url for http://localhost:4200/ será renderizado o template do component SignInComponent                
-            },
-            {
-                path: 'signup',
-                component: SignUpComponent, //Quando a url for http://localhost:4200/signup será renderizado o template do component SignUpComponent
-            },
-        ]
+        path: '', //para o path vazio: localhost:3000/
+        pathMatch: 'full', //Considere todo o segmento da rota
+        redirectTo: 'home', //e redirecione para a rota home
+    },
+    {
+        path: 'home', //para o path home: localhost:3000/home
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule), //Carregue o módulo HomeModule e suas rotas de forma lazy loading
     },
     { 
         path: 'user/:userName', 
@@ -47,7 +36,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [ RouterModule.forRoot(routes) ], //Import de módulo que configura as rotas
+    imports: [ RouterModule.forRoot(routes, { useHash: true }) ], //Import de módulo que configura as rotas
     exports: [ RouterModule ] //Exportando o módulo que possui as diretivas de rotas Ex: <router-outlet></router-outlet>
 })
 export class AppRoutingModule { }
