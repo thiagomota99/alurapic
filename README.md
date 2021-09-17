@@ -1371,3 +1371,66 @@ import { SignUpComponent } from './signup/signup.component';
 })
 export class HomeModule { }
 ```
+
+<hr>
+
+## Implementando um interceptador de requisições
+Para que possamos acessar a API e realizar certas ações dentro da aplicação precisamos estarmos autenticados. Isso indica também que, teremos um token fornecido pelo back-end
+após logar e que deverá ser armazenado no browser. Desta forma, caso queiramos realiar a ação de por exemplo: **deletar uma foto** teremos que enviar este token no cabeçalho da requisição, para que assim o back-end valide o token e permita que a ação seja executada.
+
+```typescript
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TokenService } from '../token/token.service';
+
+/*ESTE INTERCEPTADOR SERÁ CHAMADO TODA VEZ QUE FOR FEITA UMA REQUISIÇÃO PARA O BACK-END*/
+@Injectable()
+export class RequestInterceptor implements HttpInterceptor {
+    
+    constructor(private tokenService: TokenService) { }
+
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        
+        //Caso o usuário esteja logado, ou seja tenha um token
+        if(this.tokenService.hasToken()) {
+            const token = this.tokenService.getToken(); //Pega o token
+            req = req.clone({ //Clona requisição passando um objeto javascript para setar o token no cabeçalho da requisição
+                setHeaders: {
+                    'x-access-token': token
+                }
+            });
+        }
+
+        return next.handle(req); //Indica que não foi feito nenhuma mudança na requisição
+    }
+}
+```
+
+**No CoreModule...**
+```typescript
+import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+import { RequestInterceptor } from './auth/request.interceptor';
+import { HeaderComponent } from './header/header.component';
+
+@NgModule({
+    declarations: [ HeaderComponent ],
+    exports: [ HeaderComponent ],
+    imports: [ 
+        CommonModule,
+        RouterModule,
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RequestInterceptor,
+            multi: true, //serve para quando houver mais de um interceptador, para que seja delegado sucessivamente.
+        },
+    ],
+})
+export class CoreModule { }
+```
