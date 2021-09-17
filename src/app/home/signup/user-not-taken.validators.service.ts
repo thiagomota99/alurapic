@@ -4,9 +4,7 @@ import { debounceTime, first, map, switchMap } from 'rxjs/operators';
 
 import { SignUpService } from './signup.service';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 /* Este Serviço que tem como objetivo ter um método que retorne uma função de validação */
 export class UserNotTakenValidatorService { 
     
