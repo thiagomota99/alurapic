@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PhotoModule } from './photo/photo.module';
 import { PhotoFormModule } from './photo-form/photo-form.module';
 import { PhotoListModule } from './photo-list/photo-list.module';
+import { PhotoDetailsModule } from './photo-details/photo-details.module';
 
 
 
@@ -13,9 +14,8 @@ import { PhotoListModule } from './photo-list/photo-list.module';
         PhotoModule,
         PhotoFormModule,
         PhotoListModule,
+        PhotoDetailsModule,
         CommonModule,
     ],
 })
-export class PhotosModule {
-
-}
+export class PhotosModule { }

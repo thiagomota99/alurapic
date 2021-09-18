@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RequiresAutenticationGuard } from './core/auth/requires-autentication.guard';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { PhotoDetailsComponent } from './photos/photo-details/photo-details.component';
 import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
 import { PhotoListComponent } from './photos/photo-list/photo-list.component';
 import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
@@ -30,7 +31,11 @@ const routes: Routes = [
         path: 'p/add', 
         component: PhotoFormComponent, //Quando a url for http://localhost:4200/p/add será renderizado o template do component PhotoFormComponent
         canActivate: [RequiresAutenticationGuard]
-    }, 
+    },
+    {
+        path: 'p/:photoId',
+        component: PhotoDetailsComponent,        
+    },
     { 
         path: '**', 
         component: NotFoundComponent //Quando for uma url que não existe será renderizado o template do componente NotFoundComponent

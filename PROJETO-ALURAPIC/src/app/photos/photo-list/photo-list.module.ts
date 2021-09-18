@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CardModule } from 'src/app/shared/components/card/card.module';
 import { DarkenOnHoverModule } from 'src/app/shared/directive/darken-on-hover/darken-on-hover.module';
 
@@ -25,6 +26,7 @@ import { SearchComponent } from './search/search.component';
         CardModule,
         DarkenOnHoverModule,
         HttpClientModule, //Colocando o import do HttpClient, onde o mesmo fornece um provider configurado que sabe criar um objeto do tipo HttpClient
+        RouterModule,
     ] 
 })
 export class PhotoListModule {

@@ -46,4 +46,9 @@ export class PhotoService {
 
         return this.httpClient.post(`${API}/photos/upload`,formData);
     }
+
+    //Buscar uma foto por id da mesma
+    findById(id: string): Observable<IPhoto> {
+        return this.httpClient.get<IPhoto>(`${API}/photos/${id}`);
+    }
 }
