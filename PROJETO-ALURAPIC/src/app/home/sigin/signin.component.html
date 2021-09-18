@@ -38,4 +38,10 @@
     <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Login</button>
 </form>
 
-<p>Not a user? <a [routerLink]="['signup']">Register now</a></p>
+<!-- 
+    IMPORTANTÍSSIMO SABER 
+    Recomendo que considere colocar toda a rota para acessar determinado página da aplicação
+    ou seja, ao invés de colocar [routerLink]=['signup'], coloque o caminho completo [routerLink]=['/home/signup']
+    isso vai evitar de você se esquecer e achar que está em um rota filha e considerar a rota inteira
+-->
+<p>Not a user? <a [routerLink]="['/home/signup']">Register now</a></p>

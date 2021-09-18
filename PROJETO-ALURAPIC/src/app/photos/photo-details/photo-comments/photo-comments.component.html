@@ -13,13 +13,22 @@
         </li>
     </ul>
     <div class="mt-4">
-        <form>
+        <form [formGroup]="commentsForm" (submit)="save()">
             <div class="input-group">
-                <textarea class="form-control"></textarea>
+                <textarea formControlName="comments" class="form-control"></textarea>
                 <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary pull-left">Publish</button>
+                    <button 
+                        [disabled]="commentsForm.invalid || !(commentsForm.get('comments').value.trim() != '')" 
+                        type="submit" 
+                        class="btn btn-primary pull-left">
+                        Publish
+                    </button>
                 </div>
             </div>
+            <ap-vmessage 
+                [texto]="textoError"
+                *ngIf="commentsForm.get('comments').errors?.maxlength">
+            </ap-vmessage>
         </form>
     </div>
 </div>

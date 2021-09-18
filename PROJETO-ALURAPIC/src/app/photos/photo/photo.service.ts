@@ -58,4 +58,10 @@ export class PhotoService {
         return this.httpClient
             .get<IPhotoComment[]>(`${API}/photos/${photoId}/comments`);
     }
+
+    //Adicionando um comentário para a foto
+    addComent(photoId: number, commentText: string): Observable<object> {
+        return this.httpClient
+            .post(`${API}/photos/${photoId}/comments`, { commentText });
+    }
 }

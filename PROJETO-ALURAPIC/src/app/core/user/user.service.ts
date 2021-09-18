@@ -47,7 +47,7 @@ export class UserService {
 
     //Verifica se o usuário está logado
     isLogged(): boolean {
-        return this.tokenService.hasToken(); //Se tem token, o usuári está logado
+        return this.tokenService.hasToken(); //Se tem token, o usuário está logado
     }
 
     //Retorna o nome do usuário logado
