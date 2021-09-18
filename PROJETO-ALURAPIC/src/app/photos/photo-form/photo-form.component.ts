@@ -12,6 +12,7 @@ export class PhotoFormComponent implements OnInit {
 
   photoForm: FormGroup;
   file: File //Esse atributo pegará o binário do meu arquivo de foto do formulário
+  preview;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,5 +35,12 @@ export class PhotoFormComponent implements OnInit {
     this.photoService
       .upload(this.file,description,allowComments)
       .subscribe(() => this.router.navigate(['']), err => alert(err.message));
+  }
+
+  handleFile(file: File): void {
+    this.file = file;
+    const reader = new FileReader();
+    reader.onload = event => this.preview = event.target.result
+    reader.readAsDataURL(file);
   }
 }

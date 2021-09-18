@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from '../core/auth/auth.guard';
+import { LoginGuard } from '../core/auth/login.guard';
 import { HomeComponent } from './home.component';
 import { SignInComponent } from './sigin/signin.component';
 import { SignUpComponent } from './signup/signup.component';
@@ -12,7 +12,7 @@ const routes: Routes = [
         path: '',
         component: HomeComponent,
         //Rota filhas de HomeComponent
-        canActivate: [AuthGuard], //Adicionando guarda de rota a tela de login da aplicação
+        canActivate: [LoginGuard], //Adicionando guarda de rota a tela de login da aplicação
         children: [
             {
                 path: '',
