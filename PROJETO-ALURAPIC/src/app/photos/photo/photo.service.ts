@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { IPhotoComment } from '../photo-details/photo-comment';
 import { IPhoto } from './photo';
 
 
@@ -48,7 +49,13 @@ export class PhotoService {
     }
 
     //Buscar uma foto por id da mesma
-    findById(id: string): Observable<IPhoto> {
-        return this.httpClient.get<IPhoto>(`${API}/photos/${id}`);
+    findById(photoId: number): Observable<IPhoto> {
+        return this.httpClient.get<IPhoto>(`${API}/photos/${photoId}`);
+    }
+
+    //Buscando os comentários de uma foto
+    getComments(photoId: number): Observable<IPhotoComment[]> {
+        return this.httpClient
+            .get<IPhotoComment[]>(`${API}/photos/${photoId}/comments`);
     }
 }

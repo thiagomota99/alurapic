@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { IPhoto } from '../photo/photo';
 import { PhotoService } from '../photo/photo.service';
-import { IPhotoComment } from './photo-comment';
 
 @Component({
     templateUrl: './photo-details.component.html',
@@ -12,17 +11,21 @@ import { IPhotoComment } from './photo-comment';
 })
 export class PhotoDetailsComponent implements OnInit{ 
 
+    //Utilizando Observables para carregar os dados no template de forma assíncrona
     photo$: Observable<IPhoto>
-    comments$: Observable<IPhotoComment>
+    photoId: number;
 
+    //Injentando serviços necessários:
     constructor(
         private activatedRoute: ActivatedRoute,
         private photoService: PhotoService,
     ) { }
     
     ngOnInit(): void {
-        const photoId = this.activatedRoute.snapshot.params?.photoId;
-        this.photo$ = this.photoService.findById(photoId);
-        
+        //Capturando o parâmetro da rota
+        this.photoId = this.activatedRoute.snapshot.params?.photoId;
+
+        //Recebendo e atribuindo o valor da função para um observable de IPhoto
+        this.photo$ = this.photoService.findById(this.photoId);
     }
 }

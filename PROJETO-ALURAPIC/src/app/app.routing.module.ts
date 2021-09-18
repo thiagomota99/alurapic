@@ -37,7 +37,7 @@ const routes: Routes = [
         component: PhotoDetailsComponent,        
     },
     { 
-        path: '**', 
+        path: '**', //Quando a url não for nenhuma das anteriores
         component: NotFoundComponent //Quando for uma url que não existe será renderizado o template do componente NotFoundComponent
     }
 ];
