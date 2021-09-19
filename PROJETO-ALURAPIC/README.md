@@ -1435,3 +1435,24 @@ import { HeaderComponent } from './header/header.component';
 })
 export class CoreModule { }
 ```
+
+<hr>
+
+## Readonly
+Muitas vezes queremos ter uma propriedade de uma classe pública, porém somente leitura para que não tenhamos que escrever métodos acessadores caso fossem privadas. Nesse sentido, passar os valores iniciais das propriedades no constructor da classe é a única forma de atribuirmos um valor para elas. Veja o exemplo abaixo:
+
+```typescript
+export class Alert { 
+    //Quando esta classe for instanciada só poderemos atribuir valor aos atributos da classe
+    //uma única vez, passando seus valores através do construtor da classe. depois as propriedades servirão
+    //apenas como leitura e nunca atribuição.
+    constructor(public readonly alertType: AlertType, public readonly message: string) { }
+}
+
+export enum AlertType { 
+    INFO,
+    SUCCESS,
+    WARNING,
+    DANGER,
+}
+```
