@@ -7,9 +7,16 @@
       <div class="col-lg-4 p-4">
         <small>
           <p class="text-left break-word">{{photo.description}}</p>
-          <div class="text-left mb-4">
+          <div #nodePai class="text-left mb-4">
             <i class="fa fa-comment-o fa-2x mr-2 ml-2"></i>{{ photo.comments }}
-            <i (click)="remover()"class="fa fa-trash-o fa-2x pull-right" style="cursor: pointer;"></i>
+            <i (click)="remover()"
+               class="fa fa-trash-o fa-2x pull-right" 
+               style="cursor: pointer;"
+               photoOwnerOnly
+               [IdOwnedPhoto]="photo.userId"
+               [nodePai]="nodePai"
+               >
+            </i>
           </div>          
           <hr>
         </small>
