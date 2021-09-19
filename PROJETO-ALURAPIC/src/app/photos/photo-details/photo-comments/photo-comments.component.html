@@ -1,5 +1,5 @@
 <div *ngIf="(comments$ | async) as comments">
-    <ul class="list-unstyled">
+    <ul class="list-unstyled comment-list">
         <li *ngFor="let comment of comments">
             <a class="text-dark font-weight-bold mr-1" [routerLink]="['/user', comment.userName]">
                 {{ comment.userName }}
@@ -18,7 +18,7 @@
                 <textarea formControlName="comments" class="form-control"></textarea>
                 <div class="input-group-append">
                     <button 
-                        [disabled]="commentsForm.invalid || !(commentsForm.get('comments').value.trim() != '')" 
+                        [disabled]="commentsForm.invalid || !(commentsForm.get('comments').value?.trim() != '')" 
                         type="submit" 
                         class="btn btn-primary pull-left">
                         Publish

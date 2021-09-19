@@ -25,12 +25,25 @@ export class PhotoListComponent implements OnInit {
   
   //Utilizando um dos ciclos de vida do Angular
   ngOnInit(): void {
-    this.userName = this.activatedRoute.snapshot.params.userName;
 
-    //Aqui estamos atribuindo o valor do resolver para o atributo do componente
-    this.photos = this.activatedRoute.snapshot.data.photos; //this.activatedRoute.snapshot.data.nomeDaPropriedade
-    //É importante lembrar que quando o resolver retorna um observable não precisamos assinar o método. Pois o Angular
-    //automaticamente faz esse processo devolvendo de fato apenas o valor do observable.
+    /*
+      Utilizando o subscriber no parâmetros da rota. Pois caso usuário utilize o <- -> (back) e (next) do navegador
+      e o segmento da rota for o mesmo Ex: photo/algumaCoisa (clicando na setinha "back") photo/algumaCoisa
+      utilize esta estratégia. Pois o componente não vai ser carregado novamente e isso pode ser um problema.
+      Faça o teste remova o que está abaixo e faça assim:
+
+      this.userName = this.activatedRoute.snapshot.params.userName;
+
+      this.photos = this.activatedRoute.snapshot.data.photos;
+    */
+    this.activatedRoute.params.subscribe(params => {
+      this.userName = params.userName;
+
+      //Aqui estamos atribuindo o valor do resolver para o atributo do componente
+      this.photos = this.activatedRoute.snapshot.data.photos; //this.activatedRoute.snapshot.data.nomeDaPropriedade
+      //É importante lembrar que quando o resolver retorna um observable não precisamos assinar o método. Pois o Angular
+      //automaticamente faz esse processo devolvendo de fato apenas o valor do observable.
+    })
   }
 
   //Método que carrega os novos dados buscados na API
