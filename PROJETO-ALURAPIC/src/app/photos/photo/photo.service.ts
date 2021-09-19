@@ -64,4 +64,9 @@ export class PhotoService {
         return this.httpClient
             .post(`${API}/photos/${photoId}/comments`, { commentText });
     }
+
+    //Remove uma foto do usuário
+    removePhoto(photoId: number): Observable<object> {
+        return this.httpClient.delete(`${API}/photos/${photoId}`);
+    }
 }
